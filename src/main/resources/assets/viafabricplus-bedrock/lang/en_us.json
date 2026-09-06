@@ -1,0 +1,39 @@
+{
+  "base.viafabricplus.accept": "Accept",
+  "base.viafabricplus.code": "Code",
+  "base.viafabricplus.copy_link": "Copy link",
+
+  "bedrock_settings.viafabricplus": "Bedrock",
+  "bedrock_settings.viafabricplus.account": "Account for Bedrock Edition",
+  "bedrock_settings.viafabricplus.account.login": "Click to log in",
+  "bedrock_settings.viafabricplus.replace_default_port": "Replace default port in server list",
+  "bedrock_settings.viafabricplus.experimental_features": "Enable experimental features (may be unstable)",
+
+  "bedrock_account.viafabricplus.notice": "Your browser should have opened.\nClosing this screen will cancel the process!",
+
+  "screen.viafabricplus.bedrock_realms": "Bedrock Realms",
+  "screen.viafabricplus.accept_invite": "Accept an invitation code",
+
+  "bedrock_realms.viafabricplus.warning": "This feature requires a Bedrock Edition account to be set in the settings!",
+  "bedrock_realms.viafabricplus.availability_check": "Checking availability...",
+  "bedrock_realms.viafabricplus.no_worlds": "No worlds found :(",
+  "bedrock_realms.viafabricplus.unavailable": "Your ViaFabricPlus is outdated and not compatible with Minecraft Realms.",
+  "bedrock_realms.viafabricplus.join": "Join realm",
+  "bedrock_realms.viafabricplus.leave": "Leave realm",
+  "bedrock_realms.viafabricplus.invite": "Accept invite code",
+  "bedrock_realms.viafabricplus.expired": "The Realm is expired",
+  "bedrock_realms.viafabricplus.incompatible": "The Realms Minecraft version is either too old or too new",
+  "bedrock_realms.viafabricplus.unsupported_protocol": "Realms via the %s protocol is not supported. You can't join this realm.",
+
+  "minecraftauth_library.viafabricplus.msatoken": "Obtained Microsoft Access Token",
+  "minecraftauth_library.viafabricplus.xbldevicetoken": "Obtained Xbox Live Device Token",
+  "minecraftauth_library.viafabricplus.xblusertoken": "Obtained Xbox Live User Token",
+  "minecraftauth_library.viafabricplus.xbltitletoken": "Obtained Xbox Live Title Token",
+  "minecraftauth_library.viafabricplus.bedrockxststoken": "Obtained Bedrock XSTS Token",
+  "minecraftauth_library.viafabricplus.playfabxststoken": "Obtained PlayFab XSTS Token",
+  "minecraftauth_library.viafabricplus.realmsxststoken": "Obtained Realms XSTS Token",
+  "minecraftauth_library.viafabricplus.playfabtoken": "Obtained PlayFab Token",
+  "minecraftauth_library.viafabricplus.minecraftsession": "Obtained Minecraft Session",
+  "minecraftauth_library.viafabricplus.minecraftmultiplayertoken": "Obtained Minecraft Multiplayer Token",
+  "minecraftauth_library.viafabricplus.minecraftcertificatechain": "Obtained Minecraft Certificate Chain"
+}

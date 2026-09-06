@@ -1,0 +1,89 @@
+/*
+ * This file is part of ViaFabricPlus Bedrock - https://github.com/florianreuth/viafabricplus-bedrock
+ * Copyright (C) 2021-2026 the original authors
+ *                         - Florian Reuth <git@florianreuth.de>
+ *                         - RK_01/RaphiMC
+ * Copyright (C) 2023-2026 ViaVersion and contributors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.viaversion.viafabricplus.bedrock.injection.mixin.features.movement;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.viaversion.viafabricplus.ViaFabricPlus;
+import com.viaversion.viaversion.api.connection.UserConnection;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.raphimc.viabedrock.api.BedrockProtocolVersion;
+import net.raphimc.viabedrock.protocol.data.enums.bedrock.generated.PlayerAuthInputPacket_InputData;
+import net.raphimc.viabedrock.protocol.storage.EntityTracker;
+import org.jspecify.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(Entity.class)
+public abstract class MixinEntity {
+
+    @Shadow
+    protected Vec3 stuckSpeedMultiplier;
+
+    @Shadow
+    public abstract boolean isSwimming();
+
+    @Inject(method = "setSwimming", at = @At("HEAD"))
+    private void trackSwimming(final boolean swimming, final CallbackInfo ci) {
+        if (!ViaFabricPlus.api().targetVersion().equals(BedrockProtocolVersion.bedrockLatest)) {
+            return;
+        }
+
+        final UserConnection connection = ViaFabricPlus.api().userConnection();
+        if (connection != null && swimming != this.isSwimming()) {
+            connection.get(EntityTracker.class).getClientPlayer().addAuthInputData(swimming ? PlayerAuthInputPacket_InputData.StartSwimming : PlayerAuthInputPacket_InputData.StopSwimming);
+        }
+    }
+
+    @Redirect(method = "makeStuckInBlock", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;stuckSpeedMultiplier:Lnet/minecraft/world/phys/Vec3;", opcode = Opcodes.PUTFIELD))
+    private void prioritySlowestMovementMultiplier(final Entity instance, final Vec3 value) {
+        if (ViaFabricPlus.api().targetVersion().equals(BedrockProtocolVersion.bedrockLatest) && this.stuckSpeedMultiplier != Vec3.ZERO) {
+            this.stuckSpeedMultiplier = new Vec3(Math.min(this.stuckSpeedMultiplier.x, value.x), Math.min(this.stuckSpeedMultiplier.y, value.y), Math.min(this.stuckSpeedMultiplier.z, value.z));
+        } else {
+            this.stuckSpeedMultiplier = value;
+        }
+    }
+
+    // Bedrock ignores the box a vehicle would apply to its passengers
+    @ModifyExpressionValue(method = "getFluidInteractionBox", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getVehicle()Lnet/minecraft/world/entity/Entity;"))
+    private Entity skipPassengerChanges(final Entity vehicle) {
+        return ViaFabricPlus.api().targetVersion().equals(BedrockProtocolVersion.bedrockLatest) ? null : vehicle;
+    }
+
+    // Bedrock inflates the box before deflating it, which is the same as inflating the deflated box
+    @ModifyReturnValue(method = "getFluidInteractionBox", at = @At("RETURN"))
+    private @Nullable AABB inflateFluidInteractionBox(final @Nullable AABB box) {
+        if (box != null && ViaFabricPlus.api().targetVersion().equals(BedrockProtocolVersion.bedrockLatest)) {
+            return box.inflate(0, -0.4, 0);
+        } else {
+            return box;
+        }
+    }
+
+}

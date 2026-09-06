@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "viafabricplus-bedrock",
+  "version": "${version}",
+  "name": "ViaFabricPlus Bedrock",
+  "description": "${description}",
+  "authors": [
+    {
+      "name": "Florian Reuth (EnZaXD)",
+      "contact": {
+        "email": "git@florianreuth.de",
+        "homepage": "https://github.com/florianreuth"
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "name": "GitHub contributors",
+      "contact": {
+        "homepage": "https://github.com/florianreuth/viafabricplus-bedrock/graphs/contributors"
+      }
+    }
+  ],
+  "contact": {
+    "homepage": "https://florianreuth.de/",
+    "sources": "https://github.com/florianreuth/viafabricplus-bedrock",
+    "issues": "https://github.com/florianreuth/viafabricplus-bedrock/issues",
+    "email": "florian@florianreuth.de"
+  },
+  "license": "GPL-v3",
+  "icon": "assets/viafabricplus-bedrock/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "viafabricplus": [
+      "com.viaversion.viafabricplus.bedrock.ViaFabricPlusBedrock"
+    ]
+  },
+  "mixins": [
+    "viafabricplus-bedrock.mixins.json"
+  ],
+  "accessWidener": "viafabricplus-bedrock.accesswidener",
+  "depends": {
+    "minecraft": "${mcVersion}",
+    "java": ">=25",
+    "viafabricplus": ">=5.0.1-SNAPSHOT"
+  }
+}
