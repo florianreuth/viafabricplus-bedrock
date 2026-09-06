@@ -17,6 +17,21 @@ server. `Bedrock Realms` in the ViaFabricPlus screen stays disabled until an acc
 The remaining `Bedrock` settings control whether the default Bedrock port is filled in automatically and whether
 ViaBedrock's experimental features are enabled.
 
+## Gradle
+
+The mod is published to the ViaVersion repository as `com.viaversion:viafabricplus-bedrock`.
+
+```kotlin
+repositories {
+    maven("https://repo.viaversion.com")
+}
+
+dependencies {
+    // Replace it with latest release
+    runtimeOnly("com.viaversion:viafabricplus-bedrock:x.x.x")
+}
+```
+
 ## Links
 
 - ViaFabricPlus: https://github.com/ViaVersion/ViaFabricPlus
