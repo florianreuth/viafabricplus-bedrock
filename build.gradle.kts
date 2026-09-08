@@ -26,10 +26,9 @@ repositories {
 val shade = configureJarInJar()
 
 dependencies {
-    // Provided by ViaFabricPlus, which also ships ViaVersion and its own API
-    implementation("com.viaversion:viafabricplus:5.0.1-SNAPSHOT")
+    implementation("com.viaversion:viafabricplus:5.0.1")
 
-    shade("net.raphimc:ViaBedrock:0.0.29-SNAPSHOT") {
+    shade("net.raphimc:ViaBedrock:0.0.30-SNAPSHOT") {
         exclude(group = "com.mojang", module = "brigadier")
         exclude(group = "at.yawk.lz4", module = "lz4-java")
         exclude(group = "io.netty")
